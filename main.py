@@ -1,6 +1,8 @@
-def main():
-    print("Hello from smart-chatbot!")
+from fastapi import FastAPI
+
+app = FastAPI(title="Personal Chatbot")
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/")
+def root():
+    return {"message": "Welcome to the Chatbot API"}

@@ -6,4 +6,10 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi[standard]>=0.118.0",
+    "llama-index>=0.14.4",
+    "pinecone-client>=6.0.0",
+    "python-dotenv>=1.1.1",
+    "sentence-transformers>=5.1.1",
+    "transformers>=4.57.0",
+    "uvicorn>=0.37.0",
 ]
