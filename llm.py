@@ -1,10 +1,42 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from langchain_huggingface import HuggingFacePipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
+import torch
+from functools import lru_cache
+ 
 
-tokenizer = AutoTokenizer.from_pretrained("google/gemma-3-270m-it")
-model = AutoModelForCausalLM.from_pretrained("google/gemma-3-270m-it")
+
+def load_llm():
+    device = 0 if torch.cuda.is_available() else -1
+
+    tokenizer = AutoTokenizer.from_pretrained("google/gemma-3-270m-it")
+    model = AutoModelForCausalLM.from_pretrained(
+        "google/gemma-3-270m-it",
+        device_map="auto" if device == 0 else "cpu",
+        )
+
+    pipe = pipeline(
+                task="text-generation", 
+                model=model,
+                tokenizer=tokenizer, 
+                model_kwargs={"torch_dtype": torch.float16},
+                max_new_tokens=512,
+                truncation=True
+                )
+    
+    return HuggingFacePipeline(pipeline=pipe)
+
+@lru_cache()
+def get_llm():
+    return load_llm()
 
 def generate_answer(context: str, question: str):
+
+    llm = get_llm()
+
     prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer:"
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True)
-    outputs = model.generate(**inputs, max_length=200)
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+    
+    response = llm.invoke(prompt)
+
+    output = response[0]["generated_text"] if isinstance(response, list) else str(response)
+    
+    return output
