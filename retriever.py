@@ -17,6 +17,14 @@ index= pc.Index(PINECONE_INDEX_NAME)
 
 def retrieve_context(query: str, top_k: int = 3):
     query_vector = get_embedding(query)
+
+    if not isinstance(query_vector, list):
+        query_vector = query_vector.tolist()
+    
     results = index.query(vector=query_vector, top_k=top_k, include_metadata=True)
-    contexts = [m['metadata']['text'] for m in results['matches']]
+    
+    if not results.matches:
+        return "No relevant context found."
+    
+    contexts = [m.metadata["text"] for m in results.matches if "text" in m.metadata]
     return "\n".join(contexts)
