@@ -2,7 +2,7 @@ from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import CharacterTextSplitter
 from dotenv import load_dotenv
-from logics.embeddings import get_embedding
+from app.embeddings import get_embedding
 import os
 from pinecone import Pinecone, ServerlessSpec
 import time

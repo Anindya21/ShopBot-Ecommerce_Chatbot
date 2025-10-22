@@ -1,7 +1,7 @@
 from langgraph.graph import StateGraph, END
-from logics.nodes import chatbot_node, retrieval_node, decision_node, generate_answer
+from app.nodes import chatbot_node, retrieval_node, decision_node, generate_answer
 
-from logics.schema import ConversationMetadata
+from app.schema import ConversationMetadata
 
 
 def ChatState():
