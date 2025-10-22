@@ -18,8 +18,8 @@ def load_llm():
                 task="text-generation", 
                 model=model,
                 tokenizer=tokenizer, 
-                model_kwargs={"torch_dtype": torch.float16},
-                max_new_tokens=512,
+                model_kwargs={"dtype": torch.float16},
+                max_new_tokens=256,
                 truncation=True
                 )
     

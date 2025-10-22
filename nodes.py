@@ -1,8 +1,7 @@
-from .graph import ConversationMetadata
-from .llm import get_llm
-from .embeddings import get_embedding
-from .retriever import retrieve_context
-
+from schema import ConversationMetadata
+from llm import get_llm
+from embeddings import get_embedding
+from retriever import retrieve_context
 
 
 def chatbot_node(state: ConversationMetadata) -> ConversationMetadata:
@@ -31,7 +30,7 @@ def decision_node(state: ConversationMetadata) -> ConversationMetadata:
         return state
     
     query_vector =  get_embedding(query)
-    results =  retrieve_context(query, top_k=1, return_metadata= False)  
+    results =  retrieve_context(query, top_k=1, raw=True)  
 
     if results.matches:
         top_score = results.matches[0].score

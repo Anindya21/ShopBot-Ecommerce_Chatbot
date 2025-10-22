@@ -1,8 +1,14 @@
 .venv
 .env
+
 *.csv
 *.pdf
 *.sqlite3
-+__pycache__/
+
+__pycache__/
+*.pyt
+pycache/
+*.pyc
 *.sql
 query.py
+test.py

@@ -1,14 +1,7 @@
 from langgraph.graph import StateGraph, END
 from nodes import chatbot_node, retrieval_node, decision_node, generate_answer
 from typing import Dict, List, TypedDict, Optional, Annotated
-
-
-class ConversationMetadata(TypedDict):
-    conversation_id: str
-    messages: List[Dict[str, str]] 
-    context: Optional[str]
-    query: Optional[str]
-    needs_rag: Optional[bool]
+from schema import ConversationMetadata
 
 
 def ChatState():
