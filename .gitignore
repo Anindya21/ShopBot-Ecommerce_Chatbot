@@ -2,3 +2,7 @@
 .env
 *.csv
 *.pdf
+*.sqlite3
++__pycache__/
+*.sql
+query.py
