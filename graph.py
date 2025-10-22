@@ -1,6 +1,6 @@
 from langgraph.graph import StateGraph, END
 from nodes import chatbot_node, retrieval_node, decision_node, generate_answer
-from typing import Dict, List, TypedDict, Optional, Annotated
+
 from schema import ConversationMetadata
 
 
@@ -20,7 +20,7 @@ def ChatState():
     )
     builder.add_edge("retrieve", "rag")
 
-    builder.set_finish_point("rag")
+    builder.add_edge("rag", END)
     graph = builder.compile()
 
     return graph

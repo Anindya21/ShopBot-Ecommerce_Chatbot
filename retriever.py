@@ -29,9 +29,9 @@ def retrieve_context(query: str, top_k: int = 3, return_metadata: bool = True, r
     if raw:
         return results
     
-    if not results.matches:
+    if not results.matches: # type: ignore
         return "No relevant context found."
     
-    contexts = [m.metadata.get("text","") for m in results.matches]
+    contexts = [m.metadata.get("text","") for m in results.matches] # type: ignore
     
     return "\n".join(contexts)

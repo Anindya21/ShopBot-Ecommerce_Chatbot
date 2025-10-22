@@ -1,8 +1,8 @@
+#llm.py
 from langchain_huggingface import HuggingFacePipeline
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 import torch
 from functools import lru_cache
- 
 
 
 def load_llm():
@@ -20,10 +20,11 @@ def load_llm():
                 tokenizer=tokenizer, 
                 model_kwargs={"dtype": torch.float16},
                 max_new_tokens=256,
-                truncation=True
+                truncation=True,
+                return_full_text=False
                 )
     
-    return HuggingFacePipeline(pipeline=pipe)
+    return pipe, tokenizer
 
 @lru_cache()
 def get_llm():
