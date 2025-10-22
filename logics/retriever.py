@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from pinecone import Pinecone
-from embeddings import get_embedding
+from logics.embeddings import get_embedding
 
 load_dotenv()
 

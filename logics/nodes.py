@@ -1,8 +1,8 @@
 #nodes.py
-from schema import ConversationMetadata
-from llm import get_llm
-from embeddings import get_embedding
-from retriever import retrieve_context
+from logics.schema import ConversationMetadata
+from logics.llm import get_llm
+from logics.embeddings import get_embedding
+from logics.retriever import retrieve_context
 
 SYSTEM_PROMPT = {"role": "system", "content": (
         "You are a helpful and cheerful e-commerce customer support assistant named ShopBot. "
