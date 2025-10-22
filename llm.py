@@ -29,14 +29,3 @@ def load_llm():
 def get_llm():
     return load_llm()
 
-def generate_answer(context: str, question: str):
-
-    llm = get_llm()
-
-    prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer:"
-    
-    response = llm.invoke(prompt)
-
-    output = response[0]["generated_text"] if isinstance(response, list) else str(response)
-    
-    return output
