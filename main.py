@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from core.config import settings
 from app.graph import ChatState
 from pathlib import Path
 from pydantic import BaseModel
+import asyncio
 import sys
 
 
@@ -31,12 +33,12 @@ async def chat_endpoint(request: ChatRequest):
             "needs_rag": False,
         }
 
-        final_state= chat_graph.invoke(input_state)
+        final_state= await asyncio.to_thread(chat_graph.invoke, input_state)
         bot_reply= final_state["messages"][-1]["content"]
 
         return {"reply": bot_reply}
     except Exception as e:
-        return {"error": str(e)}
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 @app.get("/")
 def root():

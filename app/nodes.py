@@ -5,10 +5,11 @@ from app.embeddings import get_embedding
 from app.retriever import retrieve_context
 
 SYSTEM_PROMPT = {"role": "system", "content": (
-        "You are a helpful and cheerful e-commerce customer support assistant named ShopBot. "
-        "You only reply once per customer message. "
-        "Do not repeat your greeting unless the user greets you first."
-    )}
+    "You are ShopBot, a helpful e-commerce assistant. "
+    "Always answer questions **only** using the provided context. "
+    "If the answer is not in the context, say 'I’m not sure about that.' "
+    "Never guess or make up prices or details."
+)}
 
 
 def chatbot_node(state: ConversationMetadata) -> ConversationMetadata:

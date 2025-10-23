@@ -15,7 +15,7 @@ if not PINECONE_API_KEY:
 pc = Pinecone(PINECONE_API_KEY)
 index= pc.Index(PINECONE_INDEX_NAME)
 
-def retrieve_context(query: str, top_k: int = 3, return_metadata: bool = True, raw: bool= False):
+def retrieve_context(query: str, top_k: int = 5, return_metadata: bool = True, raw: bool= False):
     """
     Retrieve similar documents from Pinecone.
     """
