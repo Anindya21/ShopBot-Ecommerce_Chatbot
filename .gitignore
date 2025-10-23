@@ -9,6 +9,7 @@ __pycache__/
 *.pyt
 pycache/
 *.pyc
+
 *.sql
 query.py
 test.py

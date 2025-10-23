@@ -32,6 +32,21 @@ def retrieve_context(query: str, top_k: int = 3, return_metadata: bool = True, r
     if not results.matches: # type: ignore
         return "No relevant context found."
     
-    contexts = [m.metadata.get("text","") for m in results.matches] # type: ignore
-    
-    return "\n".join(contexts)
+    contexts = []
+
+    for m in results.matches:
+        meta= m.metadata
+
+        if meta:
+            context_str = (
+                f"Product Name: {meta.get('name','Unknown')}\n"
+                f"Description: {meta.get('description','Unknown')}\n"
+                f"Category: {meta.get('category','Unknown')}\n"
+                f"Brand: {meta.get('brand','Unknown')}\n"
+                f"Price: {meta.get('price','Unknown')}\n"
+            )
+            contexts.append(context_str)
+            
+    print(contexts)
+
+    return "\n\n".join(contexts)
