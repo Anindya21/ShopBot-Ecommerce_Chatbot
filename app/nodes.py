@@ -3,11 +3,12 @@ from app.schema import ConversationMetadata
 from app.llm import get_llm
 from app.embeddings import get_embedding
 from app.retriever import retrieve_context
+import re
 
 SYSTEM_PROMPT = {"role": "system", "content": (
     "You are ShopBot, a helpful e-commerce assistant. "
     "Always answer questions **only** using the provided context. "
-    "If the answer is not in the context, say 'I’m not sure about that.' "
+    "If the answer is not in the context, say 'I am not sure about that.' "
     "Never guess or make up prices or details."
 )}
 
@@ -108,9 +109,36 @@ def generate_answer(state: ConversationMetadata) -> ConversationMetadata:
 
     prompt_messages = [dict(m) for m in messages]
 
-    
+    if question:
+        question= question.lower().strip()
+
+        if "category" in question or "categories" in question:
+            categories = set( re.findall(r"Category:([A-Za-z&' ,]+)",context) )
+
+            if categories:
+                reply = f"We currently have the following categories: {', '.join(categories)}."
+
+            else:
+                reply = "I couldn't find any product categories right now."
+
+            
+            messages.append({'role':'assistant', 'content': reply})
+            state["messages"]= messages
+            return state
+
+
+
     if context and context != "No relevant context found.":
-        prompt_messages.append({"role": "user", "content": f"Context: {context}\n\nQuestion: {question}"})
+        prompt_messages.append({
+                                "role": "user", 
+                                "content": (
+                                    "Use ONLY the following context to answer the question."
+                                    "If the context does not include the answer, say 'I’m not sure.'"
+                                    "List categories or brands clearly if relevant.\n\n"
+                                    f"Context: {context}\n\n"
+                                    f"Question: {question}"
+                                    )
+                                    })
     else:
         
         if not any(m.get("role") == "user" for m in prompt_messages):
